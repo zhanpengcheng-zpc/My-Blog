@@ -1,0 +1,7 @@
+*.iml
+.idea
+docs
+logs
+target
+*.bak
+Dockerfile
