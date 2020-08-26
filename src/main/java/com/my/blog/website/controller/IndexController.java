@@ -105,6 +105,8 @@ public class IndexController extends BaseController {
         if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
         }
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         request.setAttribute("article", contents);
         request.setAttribute("is_post", true);
         completeArticle(request, contents);
@@ -129,6 +131,8 @@ public class IndexController extends BaseController {
         if (null == contents) {
             return this.render_404();
         }
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         request.setAttribute("article", contents);
         request.setAttribute("is_post", true);
         completeArticle(request, contents);
@@ -271,6 +275,8 @@ public class IndexController extends BaseController {
 
         PageInfo<ContentVo> contentsPaginator = contentService.getArticles(metaDto.getMid(), page, limit);
 
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         request.setAttribute("articles", contentsPaginator);
         request.setAttribute("meta", metaDto);
         request.setAttribute("type", "分类");
@@ -289,6 +295,8 @@ public class IndexController extends BaseController {
     public String archives(HttpServletRequest request) {
         List<ArchiveBo> archives = siteService.getArchives();
         request.setAttribute("archives", archives);
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         return this.render("archives");
     }
 
@@ -301,6 +309,8 @@ public class IndexController extends BaseController {
     public String links(HttpServletRequest request) {
         List<MetaVo> links = metaService.getMetas(Types.LINK.getType());
         request.setAttribute("links", links);
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         return this.render("links");
     }
 
@@ -325,6 +335,8 @@ public class IndexController extends BaseController {
         if (!checkHitsFrequency(request, String.valueOf(contents.getCid()))) {
             updateArticleHit(contents.getCid(), contents.getHits());
         }
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         return this.render("page");
     }
 
@@ -344,6 +356,8 @@ public class IndexController extends BaseController {
     public String search(HttpServletRequest request, @PathVariable String keyword, @PathVariable int page, @RequestParam(value = "limit", defaultValue = "12") int limit) {
         page = page < 0 || page > WebConst.MAX_PAGE ? 1 : page;
         PageInfo<ContentVo> articles = contentService.getArticles(keyword, page, limit);
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         request.setAttribute("articles", articles);
         request.setAttribute("type", "搜索");
         request.setAttribute("keyword", keyword);
@@ -405,6 +419,8 @@ public class IndexController extends BaseController {
         }
 
         PageInfo<ContentVo> contentsPaginator = contentService.getArticles(metaDto.getMid(), page, limit);
+        request.setAttribute("totalpeople", redisTemplate.boundHashOps("visitBlogIp").get("visitBlogIp"));
+        request.setAttribute("ippeople", redisTemplate.boundHashOps("visitBlogIp").keys().size());
         request.setAttribute("articles", contentsPaginator);
         request.setAttribute("meta", metaDto);
         request.setAttribute("type", "标签");
