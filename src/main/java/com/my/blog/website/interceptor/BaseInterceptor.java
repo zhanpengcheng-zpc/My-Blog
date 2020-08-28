@@ -61,10 +61,17 @@ public class BaseInterceptor implements HandlerInterceptor {
                 response.sendRedirect("/admin/login");
             }
         }
-//        if (uri.startsWith(contextPath + "/admin") && !uri.startsWith(contextPath + "/admin/login") && null == user) {
-//            response.sendRedirect(request.getContextPath() + "/admin/login");
-//            return false;
-//        }
+        if (uri.startsWith(contextPath + "/admin")
+                && !uri.startsWith(contextPath + "/admin/login")
+                && !uri.startsWith(contextPath + "/admin/css")
+                && !uri.startsWith(contextPath + "/admin/images")
+                && !uri.startsWith(contextPath + "/admin/js")
+                && !uri.startsWith(contextPath + "/admin/plugins")
+                && !uri.startsWith(contextPath + "/admin/getVerificationCode")
+                && null == user) {
+            response.sendRedirect(request.getContextPath() + "/admin/login");
+            return false;
+        }
         //设置get请求的token
         if (request.getMethod().equals("GET")) {
             String csrf_token = UUID.UU64();
